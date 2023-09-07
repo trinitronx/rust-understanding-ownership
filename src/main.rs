@@ -25,6 +25,9 @@ fn main() {
 
     // Return Values and Scope
     return_values_and_scope();
+
+    // Return Values and Scope - Tuples
+    return_values_and_scope_tuples();
 }
 
 // Example: The String Type
@@ -138,4 +141,20 @@ fn takes_and_gives_back(a_string: String) -> String {
     // scope
 
     a_string // a_string is returned and moves out to the calling function
+}
+
+// Example: Return Values and Scope - Tuples
+fn return_values_and_scope_tuples() {
+    let s1 = String::from("hello");
+
+    let (s2, len) = calculate_length(s1);
+
+    println!("The length of '{}' is {}.", s2, len);
+    // println!("`s1` is '{}'", s1); // Compiler Error: borrow of moved value: `s1`
+}
+
+fn calculate_length(s: String) -> (String, usize) {
+    let length = s.len(); // len() returns the length of a String
+
+    (s, length)
 }
