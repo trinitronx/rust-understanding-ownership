@@ -13,6 +13,9 @@ fn main() {
 
     // Variables and Data Interacting with Move
     stack_vs_heap();
+
+    // Variables and Data Interacting with Clone
+    clone_example();
 }
 
 // Example: The String Type
@@ -41,3 +44,12 @@ fn stack_vs_heap() {
     println!("{}, world!", s2);
 
 } // s2 goes out of scope, and Heap memory is freed / drop()
+
+// Example: Variables and Data Interacting with Clone
+fn clone_example() {
+    let s1 = String::from("hello");
+    let s2 = s1.clone();
+
+    println!("s1 = {}, s2 = {}", s1, s2);
+
+}
