@@ -40,6 +40,9 @@ fn main() {
 
     // Attempting Two Mutable References
     attempted_two_mutable_references();
+
+    // Multiple Mutable References
+    multiple_mutable_references();
 }
 
 // Example: The String Type
@@ -227,3 +230,13 @@ fn attempted_two_mutable_references() {
     );
 }
 
+// Example: Multiple Mutable References
+fn multiple_mutable_references() {
+    let mut s = String::from("hello");
+
+    {
+        let r1 = &mut s;
+    } // r1 goes out of scope here, so we can make a new reference with no problems.
+
+    let r2 = &mut s;
+}
