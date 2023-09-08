@@ -28,6 +28,9 @@ fn main() {
 
     // Return Values and Scope - Tuples
     return_values_and_scope_tuples();
+
+    // References and Borrowing
+    references_and_borrowing();
 }
 
 // Example: The String Type
@@ -158,3 +161,18 @@ fn calculate_length(s: String) -> (String, usize) {
 
     (s, length)
 }
+
+// Example: References and Borrowing
+fn references_and_borrowing() {
+    let s1 = String::from("hello");
+
+    let len = calculate_length2(&s1); // passing a reference to s1: &s1
+
+    println!("The length of '{}' is {}.", s1, len); // Note: s1 still valid here b/c it wasn't moved
+}
+
+fn calculate_length2(s: &String) -> usize {
+    // s is a reference to a String
+    s.len()
+} // Here, s goes out of scope. But because it does not have ownership of what
+  // it refers to, it is not dropped.
