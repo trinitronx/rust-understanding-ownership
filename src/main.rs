@@ -49,6 +49,9 @@ fn main() {
 
     // Fixed Dangling Pointers
     no_dangling_pointers();
+
+    // The Slice Type
+    naiive_slice_implementation_mutable_string_offset();
 }
 
 // Example: The String Type
@@ -309,4 +312,40 @@ fn no_dangle() -> String {
     let s = String::from("hello");
 
     s // Ownership of `s` is moved out of the function
+}
+
+// Example: The Slice Type
+// A function to return the first word of a string
+/// first_word function returns a byte index value into the String parameter
+fn first_word(s: &String) -> usize {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
+    }
+
+    s.len()
+}
+
+// usize integer offset is similar to slice &str, but
+// does not share lifetime with the String
+// So, mutating the String causes the offset to lose meaning & context
+fn naiive_slice_implementation_mutable_string_offset() {
+    let mut s = String::from("hello world");
+
+    let word = first_word(&s); // word will get the value 5
+
+    s.clear(); // this empties the String, making it equal to ""
+
+    // word still has the value 5 here, but there's no more string that
+    // we could meaningfully use the value 5 with. word is now totally invalid!
+
+    // The following will cause a runtime error:
+    //   thread 'main' panicked at 'index out of bounds: the len is 0 but the index is 5', src/main.rs:349:9
+    // println!(
+    //     "naiive_slice_implementation_mutable_string_offset(): `s[word]` is: {}",
+    //     s.as_bytes()[word]
+    // );
 }
