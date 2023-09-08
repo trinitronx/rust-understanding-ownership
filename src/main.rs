@@ -61,6 +61,9 @@ fn main() {
 
     // String Literals as Slices
     string_literals_as_slices();
+
+    // String Slices as Parameters
+    string_slices_as_parameters();
 }
 
 // Example: The String Type
@@ -442,4 +445,44 @@ fn string_literals_as_slices() {
     println!("string_literals_as_slices(): The value of `s` is: {s}");
     print!("string_literals_as_slices(): Type of `s` is: ");
     print_type_of(&s);
+}
+
+// Example: String Slices as Parameters
+fn string_slices_as_parameters() {
+    let my_string = String::from("hello world");
+
+    // `first_word_as_slices_only` works on slices of `String`s, whether partial or whole
+    let word = first_word_as_slices_only(&my_string[0..6]);
+    println!("string_slices_as_parameters(): The value of `word` is: {word}");
+    let word2 = first_word_as_slices_only(&my_string[..]);
+    println!("string_slices_as_parameters(): The value of `word2` is: {word2}");
+    // `first_word_as_slices_only` also works on references to `String`s, which are equivalent
+    // to whole slices of `String`s
+    let word3 = first_word_as_slices_only(&my_string);
+    println!("string_slices_as_parameters(): The value of `word3` is: {word3}");
+
+    let my_string_literal = "hello world";
+
+    // `first_word_as_slices_only` works on slices of string literals, whether partial or whole
+    let word4 = first_word_as_slices_only(&my_string_literal[0..6]);
+    println!("string_slices_as_parameters(): The value of `word4` is: {word4}");
+    let word5 = first_word_as_slices_only(&my_string_literal[..]);
+    println!("string_slices_as_parameters(): The value of `word5` is: {word5}");
+    // Because string literals *are* string slices already,
+    // this works too, without the slice syntax!
+    let word6 = first_word_as_slices_only(my_string_literal);
+
+    println!("string_slices_as_parameters(): The value of `word6` is: {word6}");
+}
+
+fn first_word_as_slices_only(s: &str) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
 }
