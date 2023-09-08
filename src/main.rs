@@ -31,6 +31,9 @@ fn main() {
 
     // References and Borrowing
     references_and_borrowing();
+
+    // Attempting to modify a borrowed value
+    attempted_modify_borrowed_value();
 }
 
 // Example: The String Type
@@ -176,3 +179,15 @@ fn calculate_length2(s: &String) -> usize {
     s.len()
 } // Here, s goes out of scope. But because it does not have ownership of what
   // it refers to, it is not dropped.
+
+// Example: Attempting to modify a borrowed value
+fn attempted_modify_borrowed_value() {
+    let s = String::from("hello");
+
+    change(&s);
+}
+
+fn change(some_string: &String) {
+    println!("change(): `some_string` is {some_string}");
+    // some_string.push_str(", world"); // Compile Error: cannot borrow `*some_string` as mutable, as it is behind a `&` reference
+}
