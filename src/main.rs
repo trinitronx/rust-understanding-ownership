@@ -34,6 +34,9 @@ fn main() {
 
     // Attempting to modify a borrowed value
     attempted_modify_borrowed_value();
+
+    // Mutable References
+    mutable_references();
 }
 
 // Example: The String Type
@@ -190,4 +193,18 @@ fn attempted_modify_borrowed_value() {
 fn change(some_string: &String) {
     println!("change(): `some_string` is {some_string}");
     // some_string.push_str(", world"); // Compile Error: cannot borrow `*some_string` as mutable, as it is behind a `&` reference
+}
+
+// Example: Mutable References
+fn mutable_references() {
+    let mut s = String::from("hello");
+
+    println!("mutable_references(): `s` initialized to {s}");
+    change2(&mut s);
+    println!("mutable_references(): `s` is {s}");
+}
+
+fn change2(some_string: &mut String) {
+    some_string.push_str(", world");
+    println!("change2(): `some_string` is {some_string}");
 }
