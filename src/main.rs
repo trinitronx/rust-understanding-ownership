@@ -250,10 +250,29 @@ fn attempted_mixed_mutable_immutable_references() {
 
     let r1 = &s; // no problem
     let r2 = &s; // no problem
-    // Compiler Error: cannot borrow `s` as mutable because it is also borrowed as immutable
-    // let r3 = &mut s; // BIG PROBLEM
+                 // Compiler Error: cannot borrow `s` as mutable because it is also borrowed as immutable
+                 // let r3 = &mut s; // BIG PROBLEM
     let r3 = &mut s.clone(); // Clone is OK
     r3.push_str("?"); // Mutating r3 reference modifies the cloned value ONLY
 
-    println!("attempted_mixed_mutable_immutable_references(): {}, {}, and {}", r1, r2, r3);
+    println!(
+        "attempted_mixed_mutable_immutable_references(): {}, {}, and {}",
+        r1, r2, r3
+    );
+
+    // Note: ref scope starts from where it is introduced
+    // and continues through the last time that reference is used
+    let mut s2 = String::from("hello");
+
+    let r3 = &s2; // no problem
+    let r4 = &s2; // no problem
+    println!("{} and {}", r3, r4);
+    // variables r3 and r4 will not be used after this point
+
+    // Now r3 and r4 are out of scope, so new mutable ref is OK
+    let r3 = &mut s2; // no problem
+    println!("{}", r3);
+    // These scopes don’t overlap, so this code is allowed:
+    // the compiler can tell that the reference is no longer being used at a
+    // point before the end of the scope.
 }
