@@ -64,6 +64,9 @@ fn main() {
 
     // String Slices as Parameters
     string_slices_as_parameters();
+
+    // Other Slices
+    array_slices()
 }
 
 // Example: The String Type
@@ -485,4 +488,13 @@ fn first_word_as_slices_only(s: &str) -> &str {
     }
 
     &s[..]
+}
+
+// Example: Other Slices
+fn array_slices() {
+    let a = [1, 2, 3, 4, 5];
+
+    let slice = &a[1..3];
+
+    assert_eq!(slice, &[2, 3]);
 }
