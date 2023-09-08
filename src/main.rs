@@ -46,6 +46,9 @@ fn main() {
 
     // Attempting Mixed Mutable/Immutable References
     attempted_mixed_mutable_immutable_references();
+
+    // Fixed Dangling Pointers
+    no_dangling_pointers();
 }
 
 // Example: The String Type
@@ -275,4 +278,35 @@ fn attempted_mixed_mutable_immutable_references() {
     // These scopes don’t overlap, so this code is allowed:
     // the compiler can tell that the reference is no longer being used at a
     // point before the end of the scope.
+}
+
+// Example: Dangling Pointers
+// fn dangling_pointers() {
+//     // Since `s` variable lifetime lives only inside the function below,
+//     // this does not compile
+//     let reference_to_nothing = dangle();
+// }
+
+// // Compile Error: missing lifetime specifier
+// // help: this function's return type contains a borrowed value, but there is no
+// // value for it to be borrowed from
+// fn dangle() -> &String {  // dangle returns a reference to a String
+//     let s = String::from("hello"); // s is a new String
+//     // we return a reference to the String, s
+//     &s // returns ref to `s`, but `s` has local scope!
+// }// Here, s goes out of scope, and is dropped. Its memory goes away.
+//   // Danger!
+
+// Example: Fixed Dangling Pointers
+fn no_dangling_pointers() {
+    // Since `s` variable lifetime lives only inside the function below,
+    // this does not compile
+    let reference_to_moved_ownership_value = no_dangle();
+    println!("no_dangling_pointers(): reference_to_moved_ownership_value: {reference_to_moved_ownership_value}");
+}
+
+fn no_dangle() -> String {
+    let s = String::from("hello");
+
+    s // Ownership of `s` is moved out of the function
 }
