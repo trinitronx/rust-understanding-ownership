@@ -43,6 +43,9 @@ fn main() {
 
     // Multiple Mutable References
     multiple_mutable_references();
+
+    // Attempting Mixed Mutable/Immutable References
+    attempted_mixed_mutable_immutable_references();
 }
 
 // Example: The String Type
@@ -239,4 +242,18 @@ fn multiple_mutable_references() {
     } // r1 goes out of scope here, so we can make a new reference with no problems.
 
     let r2 = &mut s;
+}
+
+// Example: Attempting Mixed Mutable/Immutable References
+fn attempted_mixed_mutable_immutable_references() {
+    let mut s = String::from("hello");
+
+    let r1 = &s; // no problem
+    let r2 = &s; // no problem
+    // Compiler Error: cannot borrow `s` as mutable because it is also borrowed as immutable
+    // let r3 = &mut s; // BIG PROBLEM
+    let r3 = &mut s.clone(); // Clone is OK
+    r3.push_str("?"); // Mutating r3 reference modifies the cloned value ONLY
+
+    println!("attempted_mixed_mutable_immutable_references(): {}, {}, and {}", r1, r2, r3);
 }
