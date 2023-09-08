@@ -37,6 +37,9 @@ fn main() {
 
     // Mutable References
     mutable_references();
+
+    // Attempting Two Mutable References
+    attempted_two_mutable_references();
 }
 
 // Example: The String Type
@@ -208,3 +211,19 @@ fn change2(some_string: &mut String) {
     some_string.push_str(", world");
     println!("change2(): `some_string` is {some_string}");
 }
+
+// Example: Attempting Two Mutable References
+fn attempted_two_mutable_references() {
+    let mut s = String::from("hello");
+
+    let r1 = &mut s;
+    // let r2 = &mut s; // Compile Error: cannot borrow `s` as mutable more than once at a time
+    // Clone of a dereferenced string ref desn't work
+    // let r2 = *r1.clone(); // Compile Error: the size for values of type `str` cannot be known at compilation time
+    let r2 = r1.clone(); // Clone of a reference works b/c size of reference / pointer is known @ compile time
+    println!(
+        "attempted_two_mutable_references(): `r1`, `r2` = {}, {}",
+        r1, r2
+    );
+}
+
