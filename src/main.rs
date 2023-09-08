@@ -52,6 +52,9 @@ fn main() {
 
     // The Slice Type
     naiive_slice_implementation_mutable_string_offset();
+
+    // String Slices
+    string_slices();
 }
 
 // Example: The String Type
@@ -348,4 +351,42 @@ fn naiive_slice_implementation_mutable_string_offset() {
     //     "naiive_slice_implementation_mutable_string_offset(): `s[word]` is: {}",
     //     s.as_bytes()[word]
     // );
+}
+
+// Example: String Slices
+fn string_slices() {
+    let s = String::from("hello world");
+
+    let hello = &s[0..5];
+    let world = &s[6..11];
+
+    println!("string_slices(): {} {}", hello, world);
+
+    // Equivalent syntax
+    let slice1 = &s[0..2]; // "he"
+    let slice2 = &s[..2]; // "he"
+    println!(
+        "string_slices(): `slice1`:  {}, `slice2`: {}",
+        slice1, slice2
+    );
+
+    // End of string equivalent syntax
+    let len = s.len();
+    // These are both the same
+    let slice3 = &s[3..len]; // "lo world"
+    let slice4 = &s[3..]; // "lo world"
+    println!(
+        "string_slices(): `slice3`:  {}, `slice4`: {}",
+        slice3, slice4
+    );
+
+    // Entire String as slice
+    let len = s.len();
+    // Equivalent syntax
+    let slice5 = &s[0..len]; // "hello world"
+    let slice6 = &s[..]; // "hello world"
+    println!(
+        "string_slices(): `slice5`:  {}, `slice6`: {}",
+        slice5, slice6
+    );
 }
