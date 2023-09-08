@@ -58,6 +58,9 @@ fn main() {
 
     // String Slices - First Word as Slice
     str_slice_implementation_mutable_string_offset();
+
+    // String Literals as Slices
+    string_literals_as_slices();
 }
 
 // Example: The String Type
@@ -422,4 +425,21 @@ fn str_slice_implementation_mutable_string_offset() {
 
     // Now a mutable reference is OK
     s.clear(); // This works
+}
+
+// Example: String Literals as Slices
+fn print_type_of<T>(_: &T) {
+    println!("{}", std::any::type_name::<T>())
+}
+
+fn string_literals_as_slices() {
+    // The type of s here is &str:
+    // it’s a slice pointing to that specific point of the binary
+    // This is also why string literals are immutable;
+    // &str is an immutable reference.
+    let s = "Hello, world!";
+
+    println!("string_literals_as_slices(): The value of `s` is: {s}");
+    print!("string_literals_as_slices(): Type of `s` is: ");
+    print_type_of(&s);
 }
