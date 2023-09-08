@@ -55,6 +55,9 @@ fn main() {
 
     // String Slices
     string_slices();
+
+    // String Slices - First Word as Slice
+    str_slice_implementation_mutable_string_offset();
 }
 
 // Example: The String Type
@@ -389,4 +392,34 @@ fn string_slices() {
         "string_slices(): `slice5`:  {}, `slice6`: {}",
         slice5, slice6
     );
+}
+
+// Example: String Slices - First Word as Slice
+fn first_word_as_slice(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
+}
+
+fn str_slice_implementation_mutable_string_offset() {
+    // The compiler will ensure the references into the String remain valid
+    let mut s = String::from("hello world");
+
+    let word = first_word_as_slice(&s);
+
+    // Compiler Error: cannot borrow `s` as mutable because it is also borrowed as immutable
+    // s.clear(); // error!
+
+    println!("the first word is: {}", word);
+
+    // immutable reference `word: &str` goes out of scope after last usage
+
+    // Now a mutable reference is OK
+    s.clear(); // This works
 }
